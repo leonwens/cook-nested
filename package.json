@@ -1,0 +1,27 @@
+{
+  "name": "cook-nested",
+  "version": "1.0.0",
+  "description": "针对嵌套结构的数据提供增删改查以及自定义的加工方法",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonwens/cook-nested.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonwens/cook-nested/issues"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "homepage": "https://github.com/leonwens/cook-nested#readme",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
