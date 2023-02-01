@@ -6,9 +6,9 @@ interface IActionFunc {
 interface IMiddlewareFunc {
   (data: IFlattenObject[]): IFlattenObject[];
 }
-const handleDelete: IActionFunc = (payload, originData) => {
+const handleDelete: IActionFunc = (payload, flattenData) => {
   const { id } = payload;
-  return originData.reduce((acc, cur) => {
+  return flattenData.reduce((acc, cur) => {
     const { id: _id, parentIdList } = cur;
     if (!parentIdList.includes(id) && _id !== id) {
       acc.push(cur);
@@ -16,26 +16,26 @@ const handleDelete: IActionFunc = (payload, originData) => {
     return acc;
   }, [] as IFlattenObject[]);
 };
-const handleInsert: IActionFunc = (payload, originData) => {
+const handleInsert: IActionFunc = (payload, flattenData) => {
   const { id, data } = payload;
-  return originData.concat({
+  return flattenData.concat({
     parentId: id,
     ...data
   });
 };
-const handleSelect: IActionFunc = (payload, originData) => {
+const handleSelect: IActionFunc = (payload, flattenData) => {
   const { id } = payload;
-  return originData.reduce((acc, cur) => {
+  return flattenData.reduce((acc, cur) => {
     const { id: _id, parentIdList } = cur;
-    if (parentIdList.includes(id) || _id == id) {
+    if (parentIdList.includes(id) || _id === id) {
       acc.push(cur);
     }
     return acc;
   }, [] as IFlattenObject[]);
 };
-const handleUpdate: IActionFunc = (payload, originData) => {
+const handleUpdate: IActionFunc = (payload, flattenData) => {
   const { id, data } = payload;
-  return originData.reduce((acc, cur) => {
+  return flattenData.reduce((acc, cur) => {
     const { id: _id, parentIdList } = cur;
     if (id === _id) {
       acc.push({

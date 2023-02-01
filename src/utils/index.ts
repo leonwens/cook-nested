@@ -59,18 +59,22 @@ export function flatten(data: INestedObject[]): IFlattenObject[] {
 export function revert(list: IFlattenObject[]): INestedObject[] {
   const res: INestedObject[] = [];
   const mapping: Record<string, IFlattenObject> = list.reduce((acc: Record<string, IFlattenObject>, cur: IFlattenObject) => {
-    acc[cur.key!] = cur;
+    acc[cur.id] = cur;
     return acc;
   }, {});
   for (const item of Object.values(mapping)) {
     const { parentId } = item;
     const schemaData = omit(item, 'parentId', 'parentIdList') as INestedObject;
-    if (!parentId) {
-      res.push(schemaData);
-    } else {
+    if (parentId) {
       const parent = mapping[parentId];
-      parent.children = parent.children || [];
-      parent.children.push(schemaData);
+      if (parent) {
+        parent.children = parent.children || [];
+        parent.children.push(schemaData);
+      } else {
+        res.push(schemaData);
+      }
+    } else {
+      res.push(schemaData);
     }
   }
   return res;
@@ -88,6 +92,6 @@ export function compose(...funcs: Function[]) {
   return funcs.reduce(
     (a, b) =>
       (...args: any) =>
-        a(b(...args))
+        b(a(...args))
   );
 }
